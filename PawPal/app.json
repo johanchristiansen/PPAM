@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "PawPal",
+    "slug": "PawPal",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/iconpawpal.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splashscreen.png",
+      "resizeMode": "cover"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/iconpawpal.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.johanchristiansen.PawPal"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2166f688-750c-4933-b0e5-e2936ad97178"
+      }
+    }
+  }
+}
