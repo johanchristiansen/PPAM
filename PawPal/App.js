@@ -1,56 +1,80 @@
-import { StatusBar } from 'expo-status-bar';
-import { useState, useEffect, useCallback } from "react";
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { StyleSheet, View, Text } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import LoginScreen from './src/components/LoginScreen';
+import HomeScreen from './src/components/HomeScreen';
+import AddPawPalScreen from './src/components/AddPawPalScreen';
+
+// Prevent the splash screen from auto-hiding
+SplashScreen.preventAutoHideAsync();
+
+const Stack = createStackNavigator();
 
 export default function App() {
-  //This state keeps track if the app has rendered
-  const [ready,setReady]=useState();
-  const loadBackgroundAssets=async()=>{
-    //Write all the code to load heavy images, fonts in the background
-    console.log('Loading heavy assets in the background')
-  }
-  const readyApp=async()=> {
+  const [ready, setReady] = useState(false);
+
+  const loadBackgroundAssets = async () => {
     try {
-      // Keep the splash screen visible while we fetch resources
-      console.log('Trigger the Splash Screen visible till this try block resolves the promise')
-      await SplashScreen.preventAutoHideAsync();
-      // Load background assets here
+      console.log('Loading heavy assets in the background');
+      // Simulate loading heavy assets with a delay
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+    } catch (e) {
+      console.warn(e);
+    }
+  };
+
+  const readyApp = async () => {
+    try {
       await loadBackgroundAssets();
-      //Explicit delay to mock some loading time
-      await new Promise(resolve => setTimeout(resolve, 3000));
     } catch (e) {
       console.warn(e);
     } finally {
-      console.log('Render the application screen')
-      //Set ready to true to render the application
       setReady(true);
+      // Hide the splash screen once assets are loaded
+      await SplashScreen.hideAsync();
     }
-  }
+  };
+
   useEffect(() => {
-    readyApp()
+    readyApp();
   }, []);
+
   const onLayoutRootView = useCallback(async () => {
     if (ready) {
-      console.log('Hide the splash screen immediately')
       await SplashScreen.hideAsync();
     }
   }, [ready]);
+
   if (!ready) {
-    return null;
+    return (
+      <View style={styles.loadingContainer}>
+        <Text>Loading heavy assets in the background</Text>
+      </View>
+    );
   }
+
   return (
-    <View style={styles.container}  onLayout={onLayoutRootView} >
-      <Text>Welcome! *Whoof Whoof* 👋</Text>
-    </View>
+    <NavigationContainer>
+      <View style={styles.container} onLayout={onLayoutRootView}>
+        <Stack.Navigator>
+          <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="AddPawPal" component={AddPawPalScreen} options={{ headerShown: false }} />
+        </Stack.Navigator>
+      </View>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
+  },
+  loadingContainer: {
+    flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
   },
 });
