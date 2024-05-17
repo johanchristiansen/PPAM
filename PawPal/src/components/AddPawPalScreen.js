@@ -1,17 +1,43 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image, Alert, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import * as FileSystem from 'expo-file-system';
+import { supabase } from '../supabaseClient';
 import { StatusBar } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import * as ImagePicker from 'expo-image-picker';
 
 const AddPawPalScreen = () => {
+  const navigation = useNavigation();
   const [selectedAnimal, setSelectedAnimal] = useState(null);
   const [name, setName] = useState('');
   const [sex, setSex] = useState('');
   const [breed, setBreed] = useState('');
   const [birthDate, setBirthDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [characteristics, setCharacteristics] = useState('');
+  const [weight, setWeight] = useState('');
+  const [medicalConcerns, setMedicalConcerns] = useState('');
+  const [pictureUri, setPictureUri] = useState('');
+  const [pictureUrl, setPictureUrl] = useState('');
+  const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data: { user }, error } = await supabase.auth.getUser();
+
+      if (error) {
+        console.error('Error fetching user:', error);
+      } else {
+        console.log('Fetched user:', user);
+        setUserId(user.id);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   const handleAnimalSelect = (animal) => {
     setSelectedAnimal(selectedAnimal === animal ? null : animal);
@@ -21,6 +47,88 @@ const AddPawPalScreen = () => {
     const currentDate = selectedDate || birthDate;
     setShowDatePicker(false);
     setBirthDate(currentDate);
+  };
+
+  const handleImagePicker = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (status !== 'granted') {
+      Alert.alert('Permission to access media library is required!');
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    console.log('Image Picker Result:', result);
+
+    if (!result.canceled && result.assets && result.assets.length > 0) {
+      const { uri } = result.assets[0];
+      const newUri = Platform.OS === 'android' ? `file://${uri.split('file:/').join('')}` : uri;
+      setPictureUri(newUri);
+    } else {
+      console.log('Image Picker Cancelled or No URI');
+      Alert.alert('Image Picker', 'No image selected or operation cancelled.');
+    }
+  };
+
+  const saveImageLocally = async (imageUri) => {
+    const fileName = `${Date.now()}-${imageUri.split('/').pop()}`;
+    const localUri = `${FileSystem.documentDirectory}${fileName}`;
+
+    try {
+      await FileSystem.copyAsync({
+        from: imageUri,
+        to: localUri,
+      });
+      return localUri;
+    } catch (error) {
+      console.error('Error saving image locally:', error);
+      Alert.alert('Error', 'Unable to save image locally. Please try again.');
+      return null;
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!userId) {
+      Alert.alert('Error', 'No user ID available');
+      return;
+    }
+
+    let uploadedUrl = pictureUrl;
+    if (pictureUri) {
+      const localUri = await saveImageLocally(pictureUri);
+      if (!localUri) return; // If image save fails, don't proceed further.
+      uploadedUrl = localUri; // Save as filename
+      setPictureUrl(uploadedUrl);
+    }
+
+    const { data, error } = await supabase
+      .from('pets')
+      .insert([
+        {
+          user_id: userId,
+          name: name,
+          animal: selectedAnimal,
+          sex: sex,
+          breed: breed,
+          birth_date: birthDate,
+          characteristics: characteristics,
+          weight: parseFloat(weight),
+          medical_concerns: medicalConcerns,
+          picture_url: uploadedUrl,
+        }
+      ]);
+
+    if (error) {
+      Alert.alert('Error', error.message);
+    } else {
+      Alert.alert('Success', 'Pet added successfully');
+      navigation.navigate('Home');
+    }
   };
 
   return (
@@ -81,25 +189,33 @@ const AddPawPalScreen = () => {
         <TextInput
           style={styles.input}
           placeholder="Characteristics*"
+          value={characteristics}
+          onChangeText={setCharacteristics}
         />
         <TextInput
           style={styles.input}
           placeholder="Body Weight (0.0 kg)*"
           keyboardType="numeric"
+          value={weight}
+          onChangeText={setWeight}
         />
         <TextInput
           style={styles.input}
           placeholder="Medical Concerns"
+          value={medicalConcerns}
+          onChangeText={setMedicalConcerns}
         />
-        <TextInput
-          style={styles.input}
-          placeholder="Insert Picture*"
-        />
+        <TouchableOpacity onPress={handleImagePicker} style={styles.imagePickerButton}>
+          <Text style={styles.imagePickerText}>Select Picture</Text>
+        </TouchableOpacity>
+        {pictureUri ? (
+          <Image source={{ uri: pictureUri }} style={styles.imagePreview} />
+        ) : null}
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.cancelButton} onPress={() => {}}>
+          <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.navigate('Home')}>
             <Text style={styles.buttonText}>Cancel</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.saveButton} onPress={() => {}}>
+          <TouchableOpacity style={styles.saveButton} onPress={handleSubmit}>
             <Text style={styles.buttonText}>Save</Text>
           </TouchableOpacity>
         </View>
@@ -177,6 +293,23 @@ const styles = StyleSheet.create({
   datePickerText: {
     fontSize: 16,
     color: '#000',
+  },
+  imagePickerButton: {
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#90caf9',
+    marginBottom: 20,
+    paddingHorizontal: 10,
+  },
+  imagePickerText: {
+    fontSize: 16,
+    color: '#fff',
+  },
+  imagePreview: {
+    width: 100,
+    height: 100,
+    marginBottom: 20,
   },
   buttonContainer: {
     flexDirection: 'row',

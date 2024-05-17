@@ -1,10 +1,46 @@
 // src/components/LoginScreen.js
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
+import { supabase } from '../supabaseClient'; // Make sure to import the supabase client
 
 const LoginScreen = ({ navigation }) => {
-  const handleLogin = () => {
-    navigation.navigate('Home');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async () => {
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+    if (error) {
+      Alert.alert('Error', error.message);
+    } else {
+      const userId = data.user.id;
+      const username = email.split('@')[0];
+
+      // Check if user exists in the user_profiles table
+      const { data: userData, error: userError } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', userId)
+        .single();
+
+      if (userError) {
+        // User does not exist, insert new user
+        const { error: insertError } = await supabase
+          .from('users')
+          .insert([{ id: userId, email, username }]);
+
+        if (insertError) {
+          Alert.alert('Error', insertError.message);
+          return;
+        }
+      }
+
+      navigation.navigate('Home');
+    }
+  };
+
+  const handleNavigateToRegister = () => {
+    navigation.navigate('Register');
   };
 
   return (
@@ -16,14 +52,18 @@ const LoginScreen = ({ navigation }) => {
         placeholder="Email"
         keyboardType="email-address"
         autoCapitalize="none"
+        value={email}
+        onChangeText={setEmail}
       />
       <TextInput 
         style={styles.input}
         placeholder="Password"
         secureTextEntry
         autoCapitalize="none"
+        value={password}
+        onChangeText={setPassword}
       />
-      <Text style={styles.signUpText}>Don’t have an account? <Text style={styles.signUpLink}>Sign Up</Text></Text>
+      <Text style={styles.signUpText}>Don’t have an account? <Text style={styles.signUpLink} onPress={handleNavigateToRegister}>Sign Up</Text></Text>
       <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
         <Text style={styles.loginButtonText}>Log In</Text>
       </TouchableOpacity>
