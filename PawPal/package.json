@@ -24,6 +24,7 @@
     "expo-image-picker": "~15.0.5",
     "expo-splash-screen": "^0.26.5",
     "expo-status-bar": "~1.11.1",
+    "expo-web-browser": "~13.0.3",
     "express": "^4.19.2",
     "mime": "^4.0.3",
     "multer": "^1.4.5-lts.1",
