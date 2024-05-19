@@ -1,7 +1,8 @@
-// src/components/LoginScreen.js
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
 import { supabase } from '../supabaseClient'; // Make sure to import the supabase client
+import * as WebBrowser from 'expo-web-browser'; // Corrected import statement
+import * as AuthSession from 'expo-auth-session'; // Corrected import statement
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -39,6 +40,60 @@ const LoginScreen = ({ navigation }) => {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    try {
+      const redirectUri = AuthSession.makeRedirectUri();
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: redirectUri },
+      });
+
+      if (error) {
+        Alert.alert('Error', error.message);
+        return;
+      }
+
+      const authUrl = data.url || "";
+      const result = await WebBrowser.openAuthSessionAsync(authUrl, redirectUri);
+
+      if (result.type === "success" && result.url) {
+        const parsedUrl = new URL(result.url);
+        const accessToken = parsedUrl.hash.split("&").reduce((acc, part) => {
+          const item = part.split("=");
+          if (item[0] === "#access_token") acc = decodeURIComponent(item[1]);
+          return acc;
+        }, "");
+        const refreshToken = parsedUrl.hash.split("&").reduce((acc, part) => {
+          const item = part.split("=");
+          if (item[0] === "refresh_token") acc = decodeURIComponent(item[1]);
+          return acc;
+        }, "");
+
+        if (accessToken) {
+          const { data: userData, error: userDataError } = await supabase.auth.getUser(accessToken);
+          if (userDataError) {
+            Alert.alert("Error", "This Google account is not linked to your PawPal account. Please sign up first or link your accounts in Settings.");
+          } else {
+            await supabase.auth.setSession({
+              access_token: accessToken,
+              refresh_token: refreshToken,
+            });
+            console.log("Login success");
+            Alert.alert("Login success");
+            navigation.navigate('Home');
+          }
+        } else {
+          Alert.alert('Error', 'Failed to retrieve access token.');
+        }
+      } else {
+        Alert.alert('Error', 'Google sign-in was cancelled or failed.');
+      }
+    } catch (error) {
+      console.error("Failed to open web browser or handle Google sign-in:", error);
+      Alert.alert('Error', 'An error occurred during Google sign-in. Please try again.');
+    }
+  };
+
   const handleNavigateToRegister = () => {
     navigation.navigate('Register');
   };
@@ -67,7 +122,7 @@ const LoginScreen = ({ navigation }) => {
       <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
         <Text style={styles.loginButtonText}>Log In</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.googleButton}>
+      <TouchableOpacity style={styles.googleButton} onPress={handleGoogleSignIn}>
         <Image source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png' }} style={styles.googleIcon} />
         <Text style={styles.googleButtonText}>Log In with Google</Text>
       </TouchableOpacity>
