@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
-import { supabase } from '../supabaseClient'; // Make sure to import the supabase client
-import * as WebBrowser from 'expo-web-browser'; // Corrected import statement
-import * as AuthSession from 'expo-auth-session'; // Corrected import statement
+import { supabase } from '../supabaseClient';
+import * as WebBrowser from 'expo-web-browser';
+import * as AuthSession from 'expo-auth-session';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -70,18 +70,42 @@ const LoginScreen = ({ navigation }) => {
         }, "");
 
         if (accessToken) {
-          const { data: userData, error: userDataError } = await supabase.auth.getUser(accessToken);
-          if (userDataError) {
-            Alert.alert("Error", "This Google account is not linked to your PawPal account. Please sign up first or link your accounts in Settings.");
-          } else {
-            await supabase.auth.setSession({
-              access_token: accessToken,
-              refresh_token: refreshToken,
-            });
-            console.log("Login success");
-            Alert.alert("Login success");
-            navigation.navigate('Home');
+          const { data: sessionData, error: sessionError } = await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken,
+          });
+
+          if (sessionError) {
+            Alert.alert("Error", "Failed to set session.");
+            return;
           }
+
+          const user = sessionData.user;
+          const userId = user.id;
+          const email = user.email;
+          const username = email.split('@')[0];
+
+          // Check if user exists in the user_profiles table
+          const { data: userData, error: userError } = await supabase
+            .from('users')
+            .select('*')
+            .eq('id', userId)
+            .single();
+
+          if (userError) {
+            // User does not exist, insert new user
+            const { error: insertError } = await supabase
+              .from('users')
+              .insert([{ id: userId, email, username }]);
+
+            if (insertError) {
+              Alert.alert('Error', insertError.message);
+              return;
+            }
+          }
+
+          Alert.alert("Login success");
+          navigation.navigate('Home');
         } else {
           Alert.alert('Error', 'Failed to retrieve access token.');
         }
