@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert, FlatList, Modal, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, FlatList, Modal, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '../supabaseClient';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -92,17 +92,23 @@ const EventDetailsScreen = () => {
   };
 
   const handleSubmit = async () => {
+    // Combine start date and time
     const combinedStartDateTime = new Date(startDate);
     combinedStartDateTime.setHours(startTime.getHours(), startTime.getMinutes());
+    const startTimeISO = new Date(combinedStartDateTime.getTime() - (combinedStartDateTime.getTimezoneOffset() * 60000)).toISOString();
 
+    // Combine end date and time
     const combinedEndDateTime = new Date(endDate);
     combinedEndDateTime.setHours(endTime.getHours(), endTime.getMinutes());
+    const endTimeISO = new Date(combinedEndDateTime.getTime() - (combinedEndDateTime.getTimezoneOffset() * 60000)).toISOString();
 
     const updates = {
-      start_time: combinedStartDateTime.toISOString(),
-      end_time: combinedEndDateTime.toISOString(),
+      start_time: startTimeISO,
+      end_time: endTimeISO,
       apply_for: applyFor,
     };
+
+    console.log('Updating event with:', updates);
 
     const { error } = await supabase
       .from('schedule')
