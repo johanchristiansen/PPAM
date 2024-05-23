@@ -39,6 +39,10 @@ const HomeScreen = ({ navigation }) => {
     navigation.navigate('AddPawPal');
   };
 
+  const navigateToAddNewSchedule = () => {
+    navigation.navigate('Schedule');
+  };
+
   const renderItem = ({ item }) => {
     const age = differenceInYears(new Date(), new Date(item.birth_date));
     return (
@@ -74,7 +78,7 @@ const HomeScreen = ({ navigation }) => {
             <Image source={require('../../assets/recipes.png')} style={styles.iconImage} />
             <Text>Recipes</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.iconButton}>
+          <TouchableOpacity style={styles.iconButton} onPress={navigateToAddNewSchedule}>
             <Image source={require('../../assets/schedule.png')} style={styles.iconImage} />
             <Text>Schedule</Text>
           </TouchableOpacity>

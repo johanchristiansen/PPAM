@@ -8,6 +8,9 @@ import LoginScreen from './src/components/LoginScreen';
 import HomeScreen from './src/components/HomeScreen';
 import AddPawPalScreen from './src/components/AddPawPalScreen';
 import RegisterScreen from './src/components/RegisterScreen';
+import AddNewSchedule from './src/components/AddNewSchedule';
+import ScheduleScreen from './src/components/ScheduleScreen';
+import EventDetailsScreen from './src/components/EventDetailsScreen';
 
 const Stack = createStackNavigator();
 
@@ -53,6 +56,9 @@ export default function App() {
           <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
           <Stack.Screen name="AddPawPal" component={AddPawPalScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="AddNewSchedule" component={AddNewSchedule} options={{ headerShown: false }} />
+          <Stack.Screen name="Schedule" component={ScheduleScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="EventDetails" component={EventDetailsScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>
