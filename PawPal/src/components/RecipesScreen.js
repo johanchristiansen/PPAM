@@ -10,9 +10,9 @@ const recipes = [
     title: 'Raw Beef & Chicken Neck',
     category: 'Dog Food',
     image: require('../../assets/placeholder.png'),
+    time: '35 mins',
     servings: '12 servings',
     calories: '491 kkal',
-    time: '35 mins',
     ingredients: [
       "900 grams 90% lean beef",
       "1360 grams chicken neck (no skin)",
@@ -41,9 +41,9 @@ const recipes = [
     title: 'Beef & Salmon',
     category: 'Cat Food',
     image: require('../../assets/placeholder.png'),
-    servings: '8 servings',
+    time: '10 mins',
+    servings: '22 servings',
     calories: '230 kkal',
-    time: '20 mins',
     ingredients: [
       "900 grams ground lean beef",
       "200 grams canned salmon, no salt",
@@ -65,9 +65,9 @@ const recipes = [
     title: 'Chicken & Rice',
     category: 'Dog Food',
     image: require('../../assets/placeholder.png'),
-    servings: '10 servings',
-    calories: '300 kkal',
     time: '40 mins',
+    servings: '8 servings',
+    calories: '375 kkal',
     ingredients: [
       "2 cups cooked brown rice",
       "1 cup boneless, skinless chicken breast",
@@ -88,9 +88,9 @@ const recipes = [
     title: 'Tuna & Sweet Potato',
     category: 'Cat Food',
     image: require('../../assets/placeholder.png'),
-    servings: '6 servings',
-    calories: '280 kkal',
-    time: '25 mins',
+    time: '15 mins',
+    servings: '18 servings',
+    calories: '290 kkal',
     ingredients: [
       "1 can tuna in water, drained",
       "1/2 cup cooked sweet potato, mashed",
@@ -109,9 +109,9 @@ const recipes = [
     title: 'Turkey & Quinoa',
     category: 'Dog Food',
     image: require('../../assets/placeholder.png'),
+    time: '45 mins',
     servings: '10 servings',
-    calories: '350 kkal',
-    time: '30 mins',
+    calories: '410 kkal',
     ingredients: [
       "2 cups cooked quinoa",
       "1 cup ground turkey, cooked",
@@ -132,9 +132,9 @@ const recipes = [
     title: 'Chicken & Pumpkin',
     category: 'Cat Food',
     image: require('../../assets/placeholder.png'),
-    servings: '6 servings',
-    calories: '220 kkal',
     time: '20 mins',
+    servings: '15 servings',
+    calories: '315 kkal',
     ingredients: [
       "1 cup cooked chicken breast, shredded",
       "1/2 cup canned pumpkin (pure pumpkin, no spices)",
@@ -168,18 +168,18 @@ const RecipesScreen = () => {
         <Card.Content>
           <Text style={styles.recipeTitle}>{item.title}</Text>
           <Text style={styles.recipeCategory}>{item.category}</Text>
-          <View style={styles.statsContainer}>
-            <View style={styles.stat}>
-              <Image source={require('../../assets/clock.png')} style={styles.statIcon} />
-              <Text style={styles.statText}>{item.time}</Text>
+          <View style={styles.recipeInfo}>
+            <View style={styles.infoItem}>
+              <Image source={require('../../assets/clock.png')} style={styles.infoIcon} />
+              <Text style={styles.infoText}>{item.time}</Text>
             </View>
-            <View style={styles.stat}>
-              <Image source={require('../../assets/servings.png')} style={styles.statIcon} />
-              <Text style={styles.statText}>{item.servings}</Text>
+            <View style={styles.infoItem}>
+              <Image source={require('../../assets/servings.png')} style={styles.infoIcon} />
+              <Text style={styles.infoText}>{item.servings}</Text>
             </View>
-            <View style={styles.stat}>
-              <Image source={require('../../assets/fire.png')} style={styles.statIcon} />
-              <Text style={styles.statText}>{item.calories}</Text>
+            <View style={styles.infoItem}>
+              <Image source={require('../../assets/fire.png')} style={styles.infoIcon} />
+              <Text style={styles.infoText}>{item.calories}</Text>
             </View>
           </View>
         </Card.Content>
@@ -272,22 +272,22 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#555',
   },
-  statsContainer: {
+  recipeInfo: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 10,
   },
-  stat: {
+  infoItem: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  statIcon: {
-    width: 24,
-    height: 24,
+  infoIcon: {
+    width: 16,
+    height: 16,
     marginRight: 5,
   },
-  statText: {
-    fontSize: 16,
+  infoText: {
+    fontSize: 12,
   },
   icon: {
     width: 24,

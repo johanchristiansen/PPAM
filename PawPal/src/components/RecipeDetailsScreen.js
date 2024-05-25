@@ -21,18 +21,18 @@ const RecipeDetailsScreen = () => {
           <Card.Content>
             <Text style={styles.recipeTitle}>{recipe.title}</Text>
             <Text style={styles.recipeCategory}>{recipe.category}</Text>
-            <View style={styles.statsContainer}>
-              <View style={styles.stat}>
-                <Image source={require('../../assets/clock.png')} style={styles.statIcon} />
-                <Text style={styles.statText}>{recipe.time}</Text>
+            <View style={styles.recipeInfo}>
+              <View style={styles.infoItem}>
+                <Image source={require('../../assets/clock.png')} style={styles.infoIcon} />
+                <Text style={styles.infoText}>{recipe.time}</Text>
               </View>
-              <View style={styles.stat}>
-                <Image source={require('../../assets/servings.png')} style={styles.statIcon} />
-                <Text style={styles.statText}>{recipe.servings}</Text>
+              <View style={styles.infoItem}>
+                <Image source={require('../../assets/servings.png')} style={styles.infoIcon} />
+                <Text style={styles.infoText}>{recipe.servings}</Text>
               </View>
-              <View style={styles.stat}>
-                <Image source={require('../../assets/fire.png')} style={styles.statIcon} />
-                <Text style={styles.statText}>{recipe.calories}</Text>
+              <View style={styles.infoItem}>
+                <Image source={require('../../assets/fire.png')} style={styles.infoIcon} />
+                <Text style={styles.infoText}>{recipe.calories}</Text>
               </View>
             </View>
             <Text style={styles.sectionTitle}>Ingredients</Text>
@@ -72,22 +72,22 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#555',
   },
-  statsContainer: {
+  recipeInfo: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 10,
   },
-  stat: {
+  infoItem: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  statIcon: {
-    width: 24,
-    height: 24,
+  infoIcon: {
+    width: 16,
+    height: 16,
     marginRight: 5,
   },
-  statText: {
-    fontSize: 16,
+  infoText: {
+    fontSize: 14,
   },
   sectionTitle: {
     fontSize: 20,
