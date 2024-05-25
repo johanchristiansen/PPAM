@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import { Appbar, Card, Searchbar, Chip, Text } from 'react-native-paper';
+import { Appbar, Card, Chip, Text } from 'react-native-paper';
 
 const recipes = [
   {
@@ -152,13 +152,11 @@ const recipes = [
 
 const RecipesScreen = () => {
   const navigation = useNavigation();
-  const [searchText, setSearchText] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
 
   const filteredRecipes = recipes.filter(
     (recipe) =>
-      recipe.title.toLowerCase().includes(searchText.toLowerCase()) &&
-      (selectedCategory === '' || recipe.category === selectedCategory)
+      selectedCategory === '' || recipe.category === selectedCategory
   );
 
   const renderRecipe = ({ item }) => (
@@ -194,12 +192,6 @@ const RecipesScreen = () => {
         <Appbar.Content title="Find Some Recipes" />
       </Appbar.Header>
       <View style={styles.container}>
-        <Searchbar
-          placeholder="Search"
-          value={searchText}
-          onChangeText={setSearchText}
-          style={styles.searchBar}
-        />
         <View style={styles.chipContainer}>
           <Chip
             icon={() => <Image source={require('../../assets/dog.png')} style={styles.icon} />}
@@ -238,9 +230,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-  },
-  searchBar: {
-    marginBottom: 10,
   },
   chipContainer: {
     flexDirection: 'row',
