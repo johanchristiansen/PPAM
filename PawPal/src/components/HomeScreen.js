@@ -43,6 +43,10 @@ const HomeScreen = ({ navigation }) => {
     navigation.navigate('Schedule');
   };
 
+  const navigateToRecipes = () => {
+    navigation.navigate('Recipes');
+  };
+
   const renderItem = ({ item }) => {
     const age = differenceInYears(new Date(), new Date(item.birth_date));
     return (
@@ -74,7 +78,7 @@ const HomeScreen = ({ navigation }) => {
         </View>
         <Text style={styles.subGreeting}>What are you looking for?</Text>
         <View style={styles.iconsContainer}>
-          <TouchableOpacity style={styles.iconButton}>
+          <TouchableOpacity style={styles.iconButton} onPress={navigateToRecipes}>
             <Image source={require('../../assets/recipes.png')} style={styles.iconImage} />
             <Text>Recipes</Text>
           </TouchableOpacity>
