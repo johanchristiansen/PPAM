@@ -24,6 +24,14 @@ export default function TabLayout() {
         tabBarInactiveTintColor: "grey"
       }}>
         <Tabs.Screen
+          name="index" // Changed the screen name to 'profile'
+          options={{
+            href: null,
+            unmountOnBlur: true,
+            tabBarStyle: {display: 'none'},
+          }}
+        />
+        <Tabs.Screen
         name="Home"
         options={{
           title: 'Home',
@@ -58,14 +66,6 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="index" // Changed the screen name to 'profile'
-        options={{
-          href: null,
-          unmountOnBlur: true,
-          tabBarStyle: {display: 'none'}
-        }}
-      />
-      <Tabs.Screen
         name="RecipeDetails" // Changed the screen name to 'profile'
         options={{
           href: null,
@@ -75,7 +75,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="Recipes" // Changed the screen name to 'notifications'
         options={{
-          title: 'Profile', // Changed the title to 'Notifications'
+          title: 'Notification', // Changed the title to 'Notifications'
           tabBarLabel: "",
           tabBarIcon: ({ color, focused }) => (
             <Image
@@ -90,12 +90,13 @@ export default function TabLayout() {
         options={{
           href: null,
           unmountOnBlur: true,
+          tabBarStyle: {display: 'none'},
         }}
       />
       <Tabs.Screen
-        name="Schedule" // Changed the screen name to 'notifications'
+        name="UserProfile" // Changed the screen name to 'notifications'
         options={{
-          title: 'Notifications', // Changed the title to 'Notifications'
+          title: 'UserProfile', // Changed the title to 'Notifications'
           tabBarLabel: "",
           tabBarIcon: ({ color, focused }) => (
             <Image

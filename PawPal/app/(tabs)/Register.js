@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { supabase } from '../supabaseClient';
 import { useNavigation } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
+
 
 const RegisterScreen = () => {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
@@ -14,7 +17,7 @@ const RegisterScreen = () => {
       Alert.alert('Sign Up Error', error.message);
     } else {
       Alert.alert('Sign Up Success', 'Please check your email to confirm your account');
-      navigation.navigate('Login');
+      router.push('/');
     }
   };
 
@@ -42,7 +45,7 @@ const RegisterScreen = () => {
       </TouchableOpacity>
       <Text style={styles.loginText}>
         Already have an account?{' '}
-        <Text style={styles.loginLink} onPress={() => navigation.navigate('Login')}>
+        <Text style={styles.loginLink} onPress={() => router.push('/')}>
           Log In
         </Text>
       </Text>

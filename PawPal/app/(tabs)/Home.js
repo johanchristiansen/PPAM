@@ -5,7 +5,6 @@ import { supabase } from '../supabaseClient';
 import { useFocusEffect } from '@react-navigation/native';
 import { format, differenceInYears } from 'date-fns';
 import { useRouter } from 'expo-router';
-import ScheduleScreen from './Schedule';
 
 const HomeScreen = ({ navigation }) => {
   const router = useRouter();
@@ -15,7 +14,7 @@ const HomeScreen = ({ navigation }) => {
   const fetchPets = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (user) {
-      setUsername(user.email.split('@')[0]);
+      setUsername(user.user_metadata.full_name.split(' ')[1]);
       const { data, error } = await supabase
         .from('pets')
         .select('*')
