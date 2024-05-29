@@ -73,7 +73,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="Recipes" // Changed the screen name to 'notifications'
+        name="Notification" // Changed the screen name to 'notifications'
         options={{
           title: 'Notification', // Changed the title to 'Notifications'
           tabBarLabel: "",
@@ -143,6 +143,27 @@ export default function TabLayout() {
       />
       <Tabs.Screen
         name="PetMedicalRecords" // Changed the screen name to 'profile'
+        options={{
+          href: null,
+          unmountOnBlur: true,
+        }}
+      />
+      <Tabs.Screen
+        name="Recipes" // Changed the screen name to 'profile'
+        options={{
+          href: null,
+          unmountOnBlur: true,
+        }}
+      />
+      <Tabs.Screen
+        name="Schedule" // Changed the screen name to 'profile'
+        options={{
+          href: null,
+          unmountOnBlur: true,
+        }}
+      />
+      <Tabs.Screen
+        name="ComingSoon" // Changed the screen name to 'profile'
         options={{
           href: null,
           unmountOnBlur: true,

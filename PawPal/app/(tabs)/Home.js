@@ -14,7 +14,7 @@ const HomeScreen = ({ navigation }) => {
   const fetchPets = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (user) {
-      setUsername(user.user_metadata.full_name.split(' ')[0]);
+      setUsername(user.email.split('@')[0]);
       const { data, error } = await supabase
         .from('pets')
         .select('*')

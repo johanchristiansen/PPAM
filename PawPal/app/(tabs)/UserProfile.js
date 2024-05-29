@@ -91,18 +91,18 @@ const UserProfileScreen = ({ navigation }) => {
         alignItems: 'center',
         backgroundColor: '#4A6572',
         paddingVertical: 60,
-        paddingHorizontal: 20,
+        paddingHorizontal: 30,
         paddingBottom: 20,
     },
     backButton: {
-        width: 37,
-        height: 22,
+        width: 23,
+        height: 16,
     },
     headerText: {
         color: 'white',
         fontSize: 24,
         fontWeight: 'bold',
-        paddingRight:10,
+        paddingLeft: 4,
     },
     editButton: {
         width: 24,
