@@ -3,15 +3,15 @@ import { StyleSheet, View } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import LoginScreen from './src/components/LoginScreen';
-import HomeScreen from './src/components/HomeScreen';
-import AddPawPalScreen from './src/components/AddPawPalScreen';
-import RegisterScreen from './src/components/RegisterScreen';
-import AddNewSchedule from './src/components/AddNewSchedule';
-import ScheduleScreen from './src/components/ScheduleScreen';
-import EventDetailsScreen from './src/components/EventDetailsScreen';
-import RecipesScreen from './src/components/RecipesScreen';
-import RecipeDetailsScreen from './src/components/RecipeDetailsScreen';
+import LoginScreen from './src/screen/LoginScreen';
+import HomeScreen from './src/screen/HomeScreen';
+import AddPawPalScreen from './src/screen/AddPawPalScreen';
+import RegisterScreen from './src/screen/RegisterScreen';
+import AddNewSchedule from './src/screen/AddNewSchedule';
+import ScheduleScreen from './src/screen/ScheduleScreen';
+import EventDetailsScreen from './src/screen/EventDetailsScreen';
+import RecipesScreen from './src/screen/RecipesScreen';
+import RecipeDetailsScreen from './src/screen/RecipeDetailsScreen';
 
 const Stack = createStackNavigator();
 
