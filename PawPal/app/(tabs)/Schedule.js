@@ -141,7 +141,7 @@ const ScheduleScreen = () => {
         </TouchableOpacity>
         <Text style={styles.title}>Reminder</Text>
         <TouchableOpacity onPress={() => navigation.navigate('AddNewSchedule')} style={styles.headerButton}>
-          <Image source={require('../../assets/addbutton.png')} style={styles.headerButtonIcon} />
+          <Image source={require('../../assets/addbutton.png')} style={styles.addButtonIcon} />
         </TouchableOpacity>
       </View>
       <View style={styles.dateInfo}>
@@ -194,6 +194,10 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   headerButtonIcon: {
+    width: 20,
+    height: 16,
+  },
+  addButtonIcon: {
     width: 24,
     height: 24,
   },

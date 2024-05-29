@@ -271,8 +271,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   headerButtonIcon: {
-    width: 24,
-    height: 24,
+    width: 30,
+    height: 16,
   },
   title: {
     fontSize: 24,
