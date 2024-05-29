@@ -13,9 +13,7 @@ const UserProfileScreen = ({ navigation }) => {
             const { data: { user }, error } = await supabase.auth.getUser();
             if (user) {
                 const fullName = user.user_metadata.full_name;
-                const nameParts = fullName.split(' ');
-                const limitedName = nameParts.slice(1,).join(' ');
-                setUsername(limitedName);
+                setUsername(fullName);
             } else {
                 console.error('Error fetching user:', error.message);
                 Alert.alert('Error', 'Unable to fetch user data');
