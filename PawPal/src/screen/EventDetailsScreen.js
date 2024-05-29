@@ -170,59 +170,64 @@ const EventDetailsScreen = () => {
         <Text style={styles.title}>Event Details</Text>
       </View>
       <View style={styles.container}>
-        <Text style={styles.label}>Title: {eventDetails.title}</Text>
-        <Text style={styles.label}>Description: {eventDetails.description}</Text>
+        <Text style={styles.eventTitle}>{eventDetails.title}</Text>
+        <Text style={styles.eventDescription}>{eventDetails.description}</Text>
 
-        <TouchableOpacity onPress={() => setShowStartDatePicker(true)} style={styles.datePickerButton}>
-          <Text style={styles.datePickerButtonText}>Start Date: {startDate.toDateString()}</Text>
-        </TouchableOpacity>
-        {showStartDatePicker && (
-          <DateTimePicker
-            value={startDate}
-            mode="date"
-            display="default"
-            onChange={handleStartDateChange}
-          />
-        )}
+        <Text style={styles.label}>Starts</Text>
+        <View style={styles.dateTimeRow}>
+          <TouchableOpacity onPress={() => setShowStartDatePicker(true)} style={styles.datePickerButton}>
+            <Text style={styles.datePickerButtonText}>{startDate.toDateString()}</Text>
+          </TouchableOpacity>
+          {showStartDatePicker && (
+            <DateTimePicker
+              value={startDate}
+              mode="date"
+              display="default"
+              onChange={handleStartDateChange}
+            />
+          )}
+          <TouchableOpacity onPress={() => setShowStartTimePicker(true)} style={styles.timePickerButton}>
+            <Text style={styles.datePickerButtonText}>{startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text>
+          </TouchableOpacity>
+          {showStartTimePicker && (
+            <DateTimePicker
+              value={startTime}
+              mode="time"
+              display="default"
+              onChange={handleStartTimeChange}
+            />
+          )}
+        </View>
 
-        <TouchableOpacity onPress={() => setShowStartTimePicker(true)} style={styles.datePickerButton}>
-          <Text style={styles.datePickerButtonText}>Start Time: {startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text>
-        </TouchableOpacity>
-        {showStartTimePicker && (
-          <DateTimePicker
-            value={startTime}
-            mode="time"
-            display="default"
-            onChange={handleStartTimeChange}
-          />
-        )}
+        <Text style={styles.label}>Ends</Text>
+        <View style={styles.dateTimeRow}>
+          <TouchableOpacity onPress={() => setShowEndDatePicker(true)} style={styles.datePickerButton}>
+            <Text style={styles.datePickerButtonText}>{endDate.toDateString()}</Text>
+          </TouchableOpacity>
+          {showEndDatePicker && (
+            <DateTimePicker
+              value={endDate}
+              mode="date"
+              display="default"
+              onChange={handleEndDateChange}
+            />
+          )}
+          <TouchableOpacity onPress={() => setShowEndTimePicker(true)} style={styles.timePickerButton}>
+            <Text style={styles.datePickerButtonText}>{endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text>
+          </TouchableOpacity>
+          {showEndTimePicker && (
+            <DateTimePicker
+              value={endTime}
+              mode="time"
+              display="default"
+              onChange={handleEndTimeChange}
+            />
+          )}
+        </View>
 
-        <TouchableOpacity onPress={() => setShowEndDatePicker(true)} style={styles.datePickerButton}>
-          <Text style={styles.datePickerButtonText}>End Date: {endDate.toDateString()}</Text>
-        </TouchableOpacity>
-        {showEndDatePicker && (
-          <DateTimePicker
-            value={endDate}
-            mode="date"
-            display="default"
-            onChange={handleEndDateChange}
-          />
-        )}
-
-        <TouchableOpacity onPress={() => setShowEndTimePicker(true)} style={styles.datePickerButton}>
-          <Text style={styles.datePickerButtonText}>End Time: {endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text>
-        </TouchableOpacity>
-        {showEndTimePicker && (
-          <DateTimePicker
-            value={endTime}
-            mode="time"
-            display="default"
-            onChange={handleEndTimeChange}
-          />
-        )}
-
+        <Text style={styles.label}>Apply For</Text>
         <TouchableOpacity onPress={() => setShowPetPicker(true)} style={styles.petPickerButton}>
-          <Text style={styles.petPickerButtonText}>Apply For: {getPetName(applyFor)}</Text>
+          <Text style={styles.petPickerButtonText}>{getPetName(applyFor)}</Text>
         </TouchableOpacity>
 
         <Modal visible={showPetPicker} transparent={true} animationType="slide">
@@ -240,7 +245,7 @@ const EventDetailsScreen = () => {
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-            <Text style={styles.buttonText}>Submit</Text>
+            <Text style={styles.buttonText}>Finish</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
             <Text style={styles.buttonText}>Delete</Text>
@@ -254,7 +259,7 @@ const EventDetailsScreen = () => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#F8F8F8',
   },
   header: {
     flexDirection: 'row',
@@ -272,37 +277,77 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
+    color: '#1F1F1F',
+    textAlign: 'center',
+    flex: 1,
   },
   container: {
     padding: 20,
   },
+  eventTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#1F1F1F',
+    textAlign: 'left',
+    marginBottom: 5,
+  },
+  eventDescription: {
+    fontSize: 16,
+    color: '#1F1F1F',
+    textAlign: 'left',
+    marginBottom: 20,
+  },
   label: {
     fontSize: 18,
     marginBottom: 10,
+    color: '#1F1F1F',
+  },
+  dateTimeRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   datePickerButton: {
+    flex: 1,
     marginVertical: 10,
     padding: 10,
     borderRadius: 5,
-    backgroundColor: '#007BFF',
+    backgroundColor: '#FFFFFF',
+    marginRight: 5,
+    borderColor: '#1F1F1F',
+    borderWidth: 1,
+  },
+  timePickerButton: {
+    flex: 1,
+    marginVertical: 10,
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: '#FFFFFF',
+    marginLeft: 5,
+    borderColor: '#1F1F1F',
+    borderWidth: 1,
   },
   datePickerButtonText: {
-    color: '#fff',
+    color: '#1F1F1F',
     fontSize: 16,
+    textAlign: 'center',
   },
   petPickerButton: {
     marginVertical: 10,
     padding: 10,
     borderRadius: 5,
-    backgroundColor: '#007BFF',
+    backgroundColor: '#FFFFFF',
+    borderColor: '#1F1F1F',
+    borderWidth: 1,
   },
   petPickerButtonText: {
-    color: '#fff',
+    color: '#1F1F1F',
     fontSize: 16,
+    textAlign: 'center',
   },
   petPickerModal: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFF',
     padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
@@ -312,7 +357,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    borderBottomColor: '#CCC',
   },
   petIcon: {
     width: 40,
@@ -322,15 +367,16 @@ const styles = StyleSheet.create({
   },
   petName: {
     fontSize: 16,
+    color: '#1F1F1F',
   },
   petPickerCloseButton: {
     marginTop: 20,
     padding: 10,
     borderRadius: 5,
-    backgroundColor: '#007BFF',
+    backgroundColor: '#5E5E5E',
   },
   petPickerCloseButtonText: {
-    color: '#fff',
+    color: '#FFF',
     fontSize: 16,
   },
   buttonContainer: {
@@ -338,21 +384,21 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   submitButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#445E6B',
     padding: 10,
     flex: 1,
     alignItems: 'center',
     marginRight: 5,
   },
   deleteButton: {
-    backgroundColor: '#F44336',
+    backgroundColor: '#BCCDD7',
     padding: 10,
     flex: 1,
     alignItems: 'center',
     marginLeft: 5,
   },
   buttonText: {
-    color: '#fff',
+    color: '#FFF',
     fontSize: 16,
   },
 });
