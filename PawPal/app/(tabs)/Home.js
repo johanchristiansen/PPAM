@@ -83,12 +83,14 @@ const HomeScreen = ({ navigation }) => {
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="dark-content" />
       <View style={styles.homeContainer}>
-        <View style={styles.header}>
+        <View style={styles.header} >
           <Text style={styles.greeting}>Hello, {username}!</Text>
-          <Image
-            source={require('../../assets/profile.png')}
-            style={styles.profileImage}
-          />
+          <TouchableOpacity onPress={() => router.push('UserProfile')}>
+            <Image
+              source={require('../../assets/profile.png')}
+              style={styles.profileImage}
+            />
+          </TouchableOpacity>
         </View>
         <Text style={styles.subGreeting}>What are you looking for?</Text>
         <View style={styles.iconsContainer}>
