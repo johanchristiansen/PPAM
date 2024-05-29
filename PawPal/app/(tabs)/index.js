@@ -3,8 +3,10 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } fro
 import { supabase } from '../supabaseClient';
 import * as WebBrowser from 'expo-web-browser';
 import * as AuthSession from 'expo-auth-session';
+import { useRouter } from 'expo-router';
 
 const LoginScreen = ({ navigation }) => {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -36,7 +38,7 @@ const LoginScreen = ({ navigation }) => {
         }
       }
 
-      navigation.navigate('Home');
+      router.push('HomeScreen');
     }
   };
 
@@ -105,7 +107,7 @@ const LoginScreen = ({ navigation }) => {
           }
 
           Alert.alert("Login success");
-          navigation.navigate('Home');
+          router.push('HomeScreen');
         } else {
           Alert.alert('Error', 'Failed to retrieve access token.');
         }
@@ -119,7 +121,7 @@ const LoginScreen = ({ navigation }) => {
   };
 
   const handleNavigateToRegister = () => {
-    navigation.navigate('Register');
+    router.push('Register');
   };
 
   return (

@@ -25,12 +25,16 @@
       "package": "com.johanchristiansen.PawPal"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
     },
     "extra": {
       "eas": {
         "projectId": "2166f688-750c-4933-b0e5-e2936ad97178"
       }
-    }
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }
