@@ -186,12 +186,18 @@ const AddPawPalScreen = () => {
             onChange={handleDateChange}
           />
         )}
-        <TextInput
-          style={styles.input}
-          placeholder="Characteristics*"
-          value={characteristics}
-          onChangeText={setCharacteristics}
-        />
+        <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={characteristics}
+            onValueChange={(itemValue) => setCharacteristics(itemValue)}
+            style={styles.picker}
+          >
+            <Picker.Item label="Select Characteristics*" value="" />
+            <Picker.Item label="active" value="active" />
+            <Picker.Item label="passive" value="passive" />
+            <Picker.Item label="neutral" value="neutral" />
+          </Picker>
+        </View>
         <TextInput
           style={styles.input}
           placeholder="Body Weight (0.0 kg)*"
@@ -199,12 +205,19 @@ const AddPawPalScreen = () => {
           value={weight}
           onChangeText={setWeight}
         />
-        <TextInput
-          style={styles.input}
-          placeholder="Medical Concerns"
-          value={medicalConcerns}
-          onChangeText={setMedicalConcerns}
-        />
+        <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={medicalConcerns}
+            onValueChange={(itemValue) => setMedicalConcerns(itemValue)}
+            style={styles.picker}
+          >
+            <Picker.Item label="Select Medical Concerns" value="" />
+            <Picker.Item label="None" value="none" />
+            <Picker.Item label="Overweight" value="overweight" />
+            <Picker.Item label="Underweight" value="underweight" />
+
+          </Picker>
+        </View>
         <TouchableOpacity onPress={handleImagePicker} style={styles.imagePickerButton}>
           <Text style={styles.imagePickerText}>Select Picture</Text>
         </TouchableOpacity>
