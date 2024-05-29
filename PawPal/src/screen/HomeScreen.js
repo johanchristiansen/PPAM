@@ -51,6 +51,14 @@ const HomeScreen = ({ navigation }) => {
     navigation.navigate('MedicalRecords');
   };
 
+  const navigateToFruitsSafe = () => {
+    navigation.navigate('FruitsSafe');
+  };
+
+  const navigateToCatAge = () => {
+    navigation.navigate('CatAge');
+  };
+
   const renderItem = ({ item }) => {
     const age = differenceInYears(new Date(), new Date(item.birth_date));
     return (
@@ -111,12 +119,12 @@ const HomeScreen = ({ navigation }) => {
         />
         <Text style={styles.sectionTitle}>What's New?</Text>
         <View style={styles.newsContainer}>
-          <View style={styles.newsCard}>
+          <TouchableOpacity style={styles.newsCard} onPress={navigateToFruitsSafe}>
             <Text style={styles.newsTitle}>Which fruits are safe for my PawPals?</Text>
-          </View>
-          <View style={styles.newsCard}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.newsCard} onPress={navigateToCatAge}>
             <Text style={styles.newsTitle}>How Old is Your Cat in People Years?</Text>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>

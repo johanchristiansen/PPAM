@@ -16,7 +16,8 @@ import MedicalRecordsScreen from './src/screen/MedicalRecordsScreen';
 import AddNewRecordScreen from './src/screen/AddNewRecordScreen';
 import PetMedicalRecords from './src/screen/PetMedicalRecords';
 import RecordDetailsScreen from './src/screen/RecordDetailsScreen';
-
+import FruitsSafeScreen from './src/screen/FruitsSafeScreen';
+import CatAgeScreen from './src/screen/CatAgeScreen';
 
 const Stack = createStackNavigator();
 
@@ -71,6 +72,8 @@ export default function App() {
           <Stack.Screen name="AddNewRecord" component={AddNewRecordScreen} options={{ headerShown: false }} />
           <Stack.Screen name="PetMedicalRecords" component={PetMedicalRecords} options={{ headerShown: false }} />
           <Stack.Screen name="RecordDetails" component={RecordDetailsScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="FruitsSafe" component={FruitsSafeScreen} options={{ title: 'Fruits Safe for PawPals' }} />
+          <Stack.Screen name="CatAge" component={CatAgeScreen} options={{ title: 'Cat Age in People Years' }} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>
