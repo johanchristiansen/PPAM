@@ -7,7 +7,7 @@ import LoginScreen from './src/screen/LoginScreen';
 import HomeScreen from './src/screen/HomeScreen';
 import AddPawPalScreen from './src/screen/AddPawPalScreen';
 import RegisterScreen from './src/screen/RegisterScreen';
-import AddNewSchedule from './src/screen/AddNewSchedule';
+import AddNewSchedule from './PawPal/src/screen/AddNewSchedule';
 import ScheduleScreen from './src/screen/ScheduleScreen';
 import EventDetailsScreen from './src/screen/EventDetailsScreen';
 import RecipesScreen from './src/screen/RecipesScreen';
