@@ -30,21 +30,21 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="AddPawPalScreen" // Changed the screen name to 'profile'
+        name="AddPawPal" // Changed the screen name to 'profile'
         options={{
           href: null,
           unmountOnBlur: true,
         }}
       />
       <Tabs.Screen
-        name="EventDetailsScreen" // Changed the screen name to 'profile'
+        name="EventDetails" // Changed the screen name to 'profile'
         options={{
           href: null,
           unmountOnBlur: true,
         }}
       />
       <Tabs.Screen
-        name="HomeScreen"
+        name="Home"
         options={{
           title: 'Home',
           tabBarLabel: "",
@@ -65,14 +65,14 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="RecipeDetailsScreen" // Changed the screen name to 'profile'
+        name="RecipeDetails" // Changed the screen name to 'profile'
         options={{
           href: null,
           unmountOnBlur: true,
         }}
       />
       <Tabs.Screen
-        name="RecipesScreen" // Changed the screen name to 'notifications'
+        name="Recipes" // Changed the screen name to 'notifications'
         options={{
           title: 'Profile', // Changed the title to 'Notifications'
           tabBarLabel: "",
@@ -85,14 +85,14 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="RegisterScreen" // Changed the screen name to 'profile'
+        name="Register" // Changed the screen name to 'profile'
         options={{
           href: null,
           unmountOnBlur: true,
         }}
       />
       <Tabs.Screen
-        name="ScheduleScreen" // Changed the screen name to 'notifications'
+        name="Schedule" // Changed the screen name to 'notifications'
         options={{
           title: 'Notifications', // Changed the title to 'Notifications'
           tabBarLabel: "",
@@ -105,35 +105,35 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="AddNewRecordScreen" // Changed the screen name to 'profile'
+        name="AddNewRecord" // Changed the screen name to 'profile'
         options={{
           href: null,
           unmountOnBlur: true,
         }}
       />
       <Tabs.Screen
-        name="CatAgeScreen" // Changed the screen name to 'profile'
+        name="CatAge" // Changed the screen name to 'profile'
         options={{
           href: null,
           unmountOnBlur: true,
         }}
       />
       <Tabs.Screen
-        name="FruitsSafeScreen" // Changed the screen name to 'profile'
+        name="FruitsSafe" // Changed the screen name to 'profile'
         options={{
           href: null,
           unmountOnBlur: true,
         }}
       />
       <Tabs.Screen
-        name="RecordDetailsScreen" // Changed the screen name to 'profile'
+        name="RecordDetails" // Changed the screen name to 'profile'
         options={{
           href: null,
           unmountOnBlur: true,
         }}
       />
       <Tabs.Screen
-        name="MedicalRecordsScreen" // Changed the screen name to 'profile'
+        name="MedicalRecords" // Changed the screen name to 'profile'
         options={{
           href: null,
           unmountOnBlur: true,

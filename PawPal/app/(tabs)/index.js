@@ -38,7 +38,7 @@ const LoginScreen = ({ navigation }) => {
         }
       }
 
-      router.push('HomeScreen');
+      router.push('Home');
     }
   };
 
@@ -107,7 +107,7 @@ const LoginScreen = ({ navigation }) => {
           }
 
           Alert.alert("Login success");
-          router.push('HomeScreen');
+          router.push('Home');
         } else {
           Alert.alert('Error', 'Failed to retrieve access token.');
         }

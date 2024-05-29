@@ -4,8 +4,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '../supabaseClient';
 import { useFocusEffect } from '@react-navigation/native';
 import { format, differenceInYears } from 'date-fns';
+import { useRouter } from 'expo-router';
+import ScheduleScreen from './Schedule';
 
 const HomeScreen = ({ navigation }) => {
+  const router = useRouter();
   const [pets, setPets] = useState([]);
   const [username, setUsername] = useState('User');
 
@@ -36,27 +39,27 @@ const HomeScreen = ({ navigation }) => {
   );
 
   const navigateToAddPawPal = () => {
-    navigation.navigate('AddPawPal');
+    router.push('AddPawPal');
   };
 
   const navigateToAddNewSchedule = () => {
-    navigation.navigate('Schedule');
+    router.push('Schedule');
   };
 
   const navigateToRecipes = () => {
-    navigation.navigate('Recipes');
+    router.push('Recipes');
   };
 
   const navigateToMedicalRecords = () => {
-    navigation.navigate('MedicalRecords');
+    router.push('MedicalRecords');
   };
 
   const navigateToFruitsSafe = () => {
-    navigation.navigate('FruitsSafe');
+    router.push('FruitsSafe');
   };
 
   const navigateToCatAge = () => {
-    navigation.navigate('CatAge');
+    router.push('CatAge');
   };
 
   const renderItem = ({ item }) => {
