@@ -12,6 +12,11 @@ import ScheduleScreen from './src/screen/ScheduleScreen';
 import EventDetailsScreen from './src/screen/EventDetailsScreen';
 import RecipesScreen from './src/screen/RecipesScreen';
 import RecipeDetailsScreen from './src/screen/RecipeDetailsScreen';
+import MedicalRecordsScreen from './src/screen/MedicalRecordsScreen';
+import AddNewRecordScreen from './src/screen/AddNewRecordScreen';
+import PetMedicalRecords from './src/screen/PetMedicalRecords';
+import RecordDetailsScreen from './src/screen/RecordDetailsScreen';
+
 
 const Stack = createStackNavigator();
 
@@ -62,6 +67,10 @@ export default function App() {
           <Stack.Screen name="EventDetails" component={EventDetailsScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Recipes" component={RecipesScreen} options={{ headerShown: false }} />
           <Stack.Screen name="RecipeDetails" component={RecipeDetailsScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="MedicalRecords" component={MedicalRecordsScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="AddNewRecord" component={AddNewRecordScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="PetMedicalRecords" component={PetMedicalRecords} options={{ headerShown: false }} />
+          <Stack.Screen name="RecordDetails" component={RecordDetailsScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>

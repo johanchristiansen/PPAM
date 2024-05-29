@@ -3,16 +3,16 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar, FlatList } 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '../supabaseClient';
 import { useFocusEffect } from '@react-navigation/native';
-import { format, differenceInYears } from 'date-fns'; // Import date-fns for date manipulation
+import { format, differenceInYears } from 'date-fns';
 
 const HomeScreen = ({ navigation }) => {
   const [pets, setPets] = useState([]);
   const [username, setUsername] = useState('User');
 
   const fetchPets = async () => {
-    const { data: { user } } = await supabase.auth.getUser(); // Ensure you have the Supabase client set up
+    const { data: { user } } = await supabase.auth.getUser();
     if (user) {
-      setUsername(user.email.split('@')[0]); // Use part of email before @ as username
+      setUsername(user.email.split('@')[0]);
       const { data, error } = await supabase
         .from('pets')
         .select('*')
@@ -45,6 +45,10 @@ const HomeScreen = ({ navigation }) => {
 
   const navigateToRecipes = () => {
     navigation.navigate('Recipes');
+  };
+
+  const navigateToMedicalRecords = () => {
+    navigation.navigate('MedicalRecords');
   };
 
   const renderItem = ({ item }) => {
@@ -86,7 +90,7 @@ const HomeScreen = ({ navigation }) => {
             <Image source={require('../../assets/schedule.png')} style={styles.iconImage} />
             <Text>Schedule</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.iconButton}>
+          <TouchableOpacity style={styles.iconButton} onPress={navigateToMedicalRecords}>
             <Image source={require('../../assets/medical.png')} style={styles.iconImage} />
             <Text>Medical</Text>
           </TouchableOpacity>
