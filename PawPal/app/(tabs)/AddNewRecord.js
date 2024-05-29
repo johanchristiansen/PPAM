@@ -3,16 +3,18 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } fro
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { supabase } from '../supabaseClient';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
-const AddNewRecordScreen = ({ route }) => {
-  const { petId } = route.params;
+const AddNewRecordScreen = () => {
+  const route = useRoute();
+  const navigation = useNavigation();
+  const { petId } = route.params || {};
+
   const [title, setTitle] = useState('');
   const [date, setDate] = useState(new Date());
   const [description, setDescription] = useState('');
   const [medication, setMedication] = useState(['']);
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const navigation = useNavigation();
 
   const handleDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -64,7 +66,7 @@ const AddNewRecordScreen = ({ route }) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.headerButton}>
+        <TouchableOpacity onPress={() => navigation.navigate('PetMedicalRecords', { petId })} style={styles.headerButton}>
           <Image source={require('../../assets/backbutton.png')} style={styles.headerButtonIcon} />
         </TouchableOpacity>
         <Text style={styles.title}>Add New Record</Text>
@@ -107,7 +109,7 @@ const AddNewRecordScreen = ({ route }) => {
           <Text style={styles.addButtonText}>Add New Row</Text>
         </TouchableOpacity>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.goBack()}>
+          <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.navigate('PetMedicalRecords', { petId })}>
             <Text style={styles.buttonText}>Cancel</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.saveButton} onPress={handleSubmit}>

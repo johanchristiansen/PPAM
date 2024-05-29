@@ -8,7 +8,7 @@ const RecordDetailsScreen = () => {
   const [record, setRecord] = useState(null);
   const navigation = useNavigation();
   const route = useRoute();
-  const { recordId } = route.params;
+  const { recordId, petId } = route.params;
 
   useEffect(() => {
     const fetchRecordDetails = async () => {
@@ -48,7 +48,7 @@ const RecordDetailsScreen = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.headerButton}>
+        <TouchableOpacity onPress={() => navigation.navigate('PetMedicalRecords', { petId })} style={styles.headerButton}>
           <Image source={require('../../assets/backbutton.png')} style={styles.headerButtonIcon} />
         </TouchableOpacity>
         <Text style={styles.title}>Record Details</Text>

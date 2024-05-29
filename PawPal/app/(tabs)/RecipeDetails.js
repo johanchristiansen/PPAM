@@ -12,7 +12,7 @@ const RecipeDetailsScreen = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <Appbar.Header>
-        <Appbar.Action icon={() => <Image source={require('../../assets/backbutton.png')} style={styles.icon} />} onPress={() => navigation.goBack()} />
+        <Appbar.Action icon={() => <Image source={require('../../assets/backbutton.png')} style={styles.icon} />} onPress={() => navigation.navigate('Recipes')} />
         <Appbar.Content title={recipe.title} />
       </Appbar.Header>
       <ScrollView contentContainerStyle={styles.container}>

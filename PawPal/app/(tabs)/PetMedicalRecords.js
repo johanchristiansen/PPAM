@@ -9,7 +9,9 @@ const PetMedicalRecordsScreen = () => {
   const [pet, setPet] = useState(null);
   const navigation = useNavigation();
   const route = useRoute();
-  const { petId } = route.params;
+  const { petId } = route.params || {}; // Default to an empty object if route.params is undefined
+
+  console.log("PetMedicalRecordsScreen route params:", route.params); // Debugging log
 
   const fetchPetDetails = async () => {
     const { data, error } = await supabase
@@ -46,7 +48,7 @@ const PetMedicalRecordsScreen = () => {
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
-      onPress={() => navigation.navigate('RecordDetails', { recordId: item.id })}
+      onPress={() => navigation.navigate('RecordDetails', { recordId: item.id, petId })}
       style={styles.recordCard}
     >
       <Text style={styles.recordDate}>{new Date(item.date).toDateString()}</Text>
@@ -62,7 +64,7 @@ const PetMedicalRecordsScreen = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.headerButton}>
+        <TouchableOpacity onPress={() => navigation.navigate('MedicalRecords')} style={styles.headerButton}>
           <Image source={require('../../assets/backbutton.png')} style={styles.headerButtonIcon} />
         </TouchableOpacity>
         <Text style={styles.title}>Medical Records</Text>
@@ -132,11 +134,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#555',
   },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginVertical: 20,
-  },
   addButton: {
     padding: 10,
     borderRadius: 5,
@@ -165,7 +162,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginTop: 5,
-    
   },
   recordDescription: {
     fontSize: 14,

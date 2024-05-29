@@ -60,7 +60,7 @@ const MedicalRecordsScreen = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.headerButton}>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.headerButton}>
           <Image source={require('../../assets/backbutton.png')} style={styles.headerButtonIcon} />
         </TouchableOpacity>
         <Text style={styles.title}>Medical Records</Text>

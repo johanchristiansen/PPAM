@@ -188,7 +188,7 @@ const RecipesScreen = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <Appbar.Header>
-        <Appbar.Action icon={() => <Image source={require('../../assets/backbutton.png')} style={styles.icon} />} onPress={() => navigation.goBack()} />
+        <Appbar.Action icon={() => <Image source={require('../../assets/backbutton.png')} style={styles.icon} />} onPress={() => navigation.navigate('Home')} />
         <Appbar.Content title="Find Some Recipes" />
       </Appbar.Header>
       <View style={styles.container}>
