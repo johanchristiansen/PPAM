@@ -76,6 +76,26 @@ const AddNewSchedule = () => {
     setEndDateTime(currentTime);
   };
 
+  const addSchedules = async (schedules) => {
+    try {
+      const { data, error } = await supabase
+        .from('schedule')
+        .insert(schedules);
+
+      if (error) {
+        console.error('Error inserting schedule:', error);
+        Alert.alert('Error', error.message || 'An error occurred while inserting the schedule.');
+      } else {
+        console.log('Schedule inserted successfully:', data);
+        Alert.alert('Success', 'Schedule added successfully');
+        navigation.navigate('Home');
+      }
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      Alert.alert('Error', 'An unexpected error occurred');
+    }
+  };
+
   const handleSubmit = async () => {
     if (!userId) {
       Alert.alert('Error', 'No user ID available');
@@ -110,23 +130,39 @@ const AddNewSchedule = () => {
 
     console.log('Schedule Data:', scheduleData);
 
-    try {
-      const { data, error } = await supabase
-        .from('schedule')
-        .insert([scheduleData]);
+    let schedules = [scheduleData];
 
-      if (error) {
-        console.error('Error inserting schedule:', error);
-        Alert.alert('Error', error.message || 'An error occurred while inserting the schedule.');
-      } else {
-        console.log('Schedule inserted successfully:', data);
-        Alert.alert('Success', 'Schedule added successfully');
-        navigation.navigate('Home');
+    if (repeat === 'daily') {
+      schedules = [];
+      for (let i = 0; i < 30; i++) { // Create 30 daily schedules
+        const newStartDateTime = new Date(startDateTime);
+        newStartDateTime.setDate(newStartDateTime.getDate() + i);
+        const newEndDateTime = new Date(endDateTime);
+        newEndDateTime.setDate(newEndDateTime.getDate() + i);
+
+        schedules.push({
+          ...scheduleData,
+          start_time: newStartDateTime.toISOString(),
+          end_time: newEndDateTime.toISOString(),
+        });
       }
-    } catch (error) {
-      console.error('Unexpected error:', error);
-      Alert.alert('Error', 'An unexpected error occurred');
+    } else if (repeat === 'weekly') {
+      schedules = [];
+      for (let i = 0; i < 4; i++) { // Create 4 weekly schedules
+        const newStartDateTime = new Date(startDateTime);
+        newStartDateTime.setDate(newStartDateTime.getDate() + (i * 7));
+        const newEndDateTime = new Date(endDateTime);
+        newEndDateTime.setDate(newEndDateTime.getDate() + (i * 7));
+
+        schedules.push({
+          ...scheduleData,
+          start_time: newStartDateTime.toISOString(),
+          end_time: newEndDateTime.toISOString(),
+        });
+      }
     }
+
+    addSchedules(schedules);
   };
 
   return (
