@@ -102,6 +102,37 @@ const ScheduleScreen = () => {
     );
   };
 
+  const renderDateItem = ({ item }) => {
+    const isSelected = item.date.toDateString() === selectedDate.toDateString();
+    return (
+      <TouchableOpacity onPress={() => setSelectedDate(item.date)}>
+        <View style={[styles.dateItem, isSelected && styles.dateItemSelected]}>
+          <Text style={styles.dayLabel}>{item.day}</Text>
+          <Text style={styles.dateLabel}>{item.date.getDate()}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
+  const generateDates = () => {
+    const dates = [];
+    const currentDate = new Date();
+    for (let i = -3; i <= 3; i++) {
+      const date = new Date(currentDate);
+      date.setDate(currentDate.getDate() + i);
+      dates.push({
+        date,
+        day: date.toLocaleDateString('en-US', { weekday: 'short' })[0]
+      });
+    }
+    return dates;
+  };
+
+  const formatDate = (date) => {
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.header}>
@@ -113,7 +144,20 @@ const ScheduleScreen = () => {
           <Image source={require('../../assets/addbutton.png')} style={styles.headerButtonIcon} />
         </TouchableOpacity>
       </View>
-      <Text style={styles.date}>{selectedDate.toDateString()}</Text>
+      <View style={styles.dateInfo}>
+        <Text style={styles.todayLabel}>Today</Text>
+        <Text style={styles.date}>{formatDate(selectedDate)}</Text>
+      </View>
+      <View style={styles.dateContainer}>
+        <FlatList
+          data={generateDates()}
+          renderItem={renderDateItem}
+          keyExtractor={(item) => item.date.toDateString()}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.dateList}
+        />
+      </View>
       <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.datePickerButton}>
         <Text style={styles.datePickerButtonText}>Pick a date</Text>
       </TouchableOpacity>
@@ -157,15 +201,47 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
   },
+  dateInfo: {
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  todayLabel: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
   date: {
     fontSize: 16,
     color: '#888',
-    textAlign: 'center',
+  },
+  dateContainer: {
+    alignItems: 'center',
     marginVertical: 10,
+  },
+  dateList: {
+    paddingVertical: 10,
+  },
+  dateItem: {
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 20,
+    marginHorizontal: 5,
+    backgroundColor: '#BCCDD7',
+  },
+  dateItemSelected: {
+    backgroundColor: '#445E6B',
+  },
+  dayLabel: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  dateLabel: {
+    fontSize: 16,
+    color: '#333',
   },
   datePickerButton: {
     marginTop: 10,
-    backgroundColor: '#007BFF',
+    backgroundColor: '#445E6B',
     padding: 10,
     borderRadius: 5,
     alignSelf: 'center',
@@ -178,7 +254,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   scheduleItem: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#EADDCD',
     padding: 15,
     borderRadius: 10,
     marginBottom: 15,
