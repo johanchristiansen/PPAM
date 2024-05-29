@@ -19,7 +19,7 @@ const UserProfileScreen = ({ navigation }) => {
                 Alert.alert('Error', 'Unable to fetch user data');
             }
         };
-        getUserData();
+        getUserData();  
     }, []);
 
     const handleSignOut = async () => {
