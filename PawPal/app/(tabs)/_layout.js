@@ -14,6 +14,7 @@ export default function TabLayout() {
   // const colorScheme = useColorScheme();
 
   return (
+    
     <Tabs
       screenOptions={{
         // tabBarActiveTintColor: Colors[colorScheme ? colorScheme : 'light'].tint,
@@ -22,6 +23,19 @@ export default function TabLayout() {
         tabBarActiveTintColor: "white",
         tabBarInactiveTintColor: "grey"
       }}>
+        <Tabs.Screen
+        name="Home"
+        options={{
+          title: 'Home',
+          tabBarLabel: "",
+          tabBarIcon: ({ color, focused }) => (
+            <Image
+              source={focused ? homeIcon : homeIcon} // Use homeIcon for both focused and unfocused
+              style={{ width: 24, height: 24, tintColor: color }}
+            />
+          ),
+        }}
+      />
       <Tabs.Screen
         name="AddNewSchedule" // Changed the screen name to 'profile'
         options={{
@@ -41,19 +55,6 @@ export default function TabLayout() {
         options={{
           href: null,
           unmountOnBlur: true,
-        }}
-      />
-      <Tabs.Screen
-        name="Home"
-        options={{
-          title: 'Home',
-          tabBarLabel: "",
-          tabBarIcon: ({ color, focused }) => (
-            <Image
-              source={focused ? homeIcon : homeIcon} // Use homeIcon for both focused and unfocused
-              style={{ width: 24, height: 24, tintColor: color }}
-            />
-          ),
         }}
       />
       <Tabs.Screen
