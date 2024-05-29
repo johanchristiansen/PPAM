@@ -14,7 +14,12 @@ const HomeScreen = ({ navigation }) => {
   const fetchPets = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (user) {
-      setUsername(user.email.split('@')[0]);
+      // Check if user.email is defined before using it
+      if (user.email) {
+        setUsername(user.email.split('@')[0]);
+      } else {
+        console.error("User email is undefined");
+      }
       const { data, error } = await supabase
         .from('pets')
         .select('*')

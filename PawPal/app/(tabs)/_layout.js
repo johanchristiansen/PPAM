@@ -23,14 +23,7 @@ export default function TabLayout() {
         tabBarActiveTintColor: "white",
         tabBarInactiveTintColor: "grey"
       }}>
-        <Tabs.Screen
-          name="index" // Changed the screen name to 'profile'
-          options={{
-            href: null,
-            unmountOnBlur: true,
-            tabBarStyle: {display: 'none'},
-          }}
-        />
+        
         <Tabs.Screen
         name="Home"
         options={{
@@ -44,6 +37,15 @@ export default function TabLayout() {
           ),
         }}
       />
+        <Tabs.Screen
+          name="index" // Changed the screen name to 'profile'
+          options={{
+            href: null,
+            unmountOnBlur: true,
+            tabBarStyle: {display: 'none'},
+          }}
+        />
+        
       <Tabs.Screen
         name="AddNewSchedule" // Changed the screen name to 'profile'
         options={{
