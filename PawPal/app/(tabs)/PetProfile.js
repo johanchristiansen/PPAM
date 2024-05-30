@@ -2,16 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { ScrollView, View, Text, StyleSheet, Image, Alert } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '../supabaseClient';
-import { useRouter } from 'expo-router';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 
 const PetProfile = () => {
     const [petDetails, setPetDetails] = useState(null);
     const [dailyCalorieNeeds, setDailyCalorieNeeds] = useState(0);
-    const router = useRouter();
-    const { petId } = router.params; // Correct way to access route params
-
-    // const { petId } = router.params;
-    // console.log(petId);
+    const { petId } = useLocalSearchParams(); // Correct way to get params
 
     const getPetDetails = async (petId) => {
         try {
@@ -52,14 +48,14 @@ const PetProfile = () => {
             try {
                 let { data: breedData, error } = await supabase
                     .from('pet_breeds')
-                    .select('Size Category')
-                    .eq('Pet Type', 'Dog')
-                    .eq('Breed', breed)
+                    .select('size_categ')
+                    .eq('pet_type', 'Dog')
+                    .eq('breed', breed)
                     .single();
 
                 if (error) throw error;
 
-                return breedData['Size Category'];
+                return breedData['size_categ'];
             } catch (error) {
                 console.error('Error fetching breed size:', error);
                 return null;
@@ -100,14 +96,14 @@ const PetProfile = () => {
             try {
                 let { data: breedData, error } = await supabase
                     .from('pet_breeds') // Assuming a different table for cat breeds
-                    .select('Size Category')
-                    .eq('Pet Type', 'Cat')
+                    .select('size_categ')
+                    .eq('pet_type', 'Cat')
                     .eq('Breed', breed)
                     .single();
 
                 if (error) throw error;
 
-                return breedData['Size Category'];
+                return breedData['size_categ'];
             } catch (error) {
                 console.error('Error fetching breed size:', error);
                 return null;
@@ -146,20 +142,20 @@ const PetProfile = () => {
                 console.error('Pet ID is undefined');
                 return;
             }
-    
+
             try {
                 const petDetails = await getPetDetails(petId);
-    
+
                 if (petDetails) {
                     const petAge = calculateAge(petDetails);
-    
+
                     let dailyCalorieNeeds;
                     if (petDetails.animal === 'dog') {
                         dailyCalorieNeeds = await determineCalorieIntakeForDogs(petAge, petDetails);
                     } else if (petDetails.animal === 'cat') {
                         dailyCalorieNeeds = await determineCalorieIntakeForCats(petAge, petDetails);
                     }
-    
+                    dailyCalorieNeeds = Math.round(dailyCalorieNeeds);
                     setPetDetails(petDetails);
                     setDailyCalorieNeeds(dailyCalorieNeeds);
                 } else {
@@ -170,10 +166,9 @@ const PetProfile = () => {
                 Alert.alert('Error', 'Unable to fetch pet details');
             }
         };
-    
+
         fetchPetDetails();
     }, [petId]);
-    
 
     if (!petDetails) {
         return (
@@ -242,7 +237,7 @@ const styles = StyleSheet.create({
     },
     header: {
         width: '100%',
-        height: 300,
+        height: 400,
         backgroundColor: '#fff',
         alignItems: 'center',
     },

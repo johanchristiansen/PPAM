@@ -4,10 +4,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '../supabaseClient';
 import { useFocusEffect } from '@react-navigation/native';
 import { format, differenceInYears } from 'date-fns';
-import { useRouter } from 'expo-router';
+import { useRouter, useNavigation } from 'expo-router';
 
-const HomeScreen = ({ navigation }) => {
+
+const HomeScreen = () => {
   const router = useRouter();
+  const navigation = useNavigation();
   const [pets, setPets] = useState([]);
   const [username, setUsername] = useState('User');
 
@@ -66,10 +68,6 @@ const HomeScreen = ({ navigation }) => {
     router.push('CatAge');
   };
 
-  const navigateToPetProfile = (petId) => {
-    router.push('PetProfile', { petId: petId }); // Correct way to pass parameters
-  };
-  
   
   
   const renderItem = ({ item }) => {
@@ -89,7 +87,15 @@ const HomeScreen = ({ navigation }) => {
       </TouchableOpacity>
     );
   };
-
+  
+  const navigateToPetProfile = (petId) => {
+    console.log(petId);
+    router.push({
+      pathname: '/PetProfile',
+      params: { petId: petId },
+    });
+  };
+  
 
   // const renderItem = ({ item }) => {
   //   const age = differenceInYears(new Date(), new Date(item.birth_date));
