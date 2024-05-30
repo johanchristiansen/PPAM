@@ -47,12 +47,18 @@ const ScheduleScreen = () => {
   };
 
   const fetchSchedules = async (userId, date) => {
+    const startOfDay = new Date(date);
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const endOfDay = new Date(date);
+    endOfDay.setHours(23, 59, 59, 999);
+
     const { data, error } = await supabase
       .from('schedule')
       .select('*')
       .eq('uid', userId)
-      .gte('start_time', date.toISOString())
-      .lt('start_time', new Date(date.getTime() + 24 * 60 * 60 * 1000).toISOString());
+      .gte('start_time', startOfDay.toISOString())
+      .lt('start_time', endOfDay.toISOString());
 
     if (error) {
       console.error('Error fetching schedules:', error);
@@ -122,7 +128,7 @@ const ScheduleScreen = () => {
       date.setDate(currentDate.getDate() + i);
       dates.push({
         date,
-        day: date.toLocaleDateString('en-US', { weekday: 'short' })[0]
+        day: date.toLocaleDateString('en-US', { weekday: 'short' })
       });
     }
     return dates;

@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '../supabaseClient';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 const Notification = () => {
   const navigation = useNavigation();
@@ -64,7 +64,7 @@ const Notification = () => {
   };
 
   const renderNotificationItem = ({ item }) => {
-    const petNames = item.apply_for.split(',').map(petId => pets[petId]?.name).join(', ');
+    const petNames = item.apply_for.split(',').map(petId => pets[petId]?.name).filter(Boolean).join(', ');
 
     const iconSource = item.category === 'meal'
       ? require('../../assets/meal.png')
