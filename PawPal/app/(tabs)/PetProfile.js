@@ -319,7 +319,7 @@ const styles = StyleSheet.create({
     cardContainer: {
         marginBottom: 15,
         paddingHorizontal: 20,
-        top: 340,
+        top: 400,
     },
     card: {
         backgroundColor: '#fff',

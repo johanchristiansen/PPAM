@@ -14,7 +14,7 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarStyle: { padding: 35, backgroundColor: "#445E6B" },
+        tabBarStyle: { padding: 35, backgroundColor: "#445E6B", height: 55 },
         tabBarActiveTintColor: "white",
         tabBarInactiveTintColor: "grey"
       }}>
@@ -27,7 +27,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <Image
               source={focused ? homeIcon : homeIcon} 
-              style={{ width: 24, height: 24, tintColor: color }}
+              style={{ width: 24, height: 24, tintColor: color, marginTop:-20 }}
             />
           ),
         }}
@@ -77,7 +77,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <Image
               source={focused ? notifIcon : notifIcon} 
-              style={{ width: 30, height: 30, tintColor: color }}
+              style={{ width: 30, height: 30, tintColor: color, marginTop:-17 }}
             />
           ),
         }}
@@ -98,7 +98,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <Image
               source={focused ? profileIcon : profileIcon} 
-              style={{ width: 33, height: 33, tintColor: color }}
+              style={{ width: 34, height: 34, tintColor: color, marginTop:-12 }}
             />
           ),
         }}
