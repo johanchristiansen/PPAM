@@ -200,31 +200,38 @@ const PetProfile = () => {
                         <Text style={styles.calorieValue}>{dailyCalorieNeeds} kcal per day</Text>
                     </View>
                 </View>
-                <ScrollView contentContainerStyle={styles.scrollContent}>
-                    <View style={styles.mealPlan}>
-                        <Text style={styles.mealTime}>Breakfast 9AM</Text>
-                        <Text style={styles.mealDescription}>Active Care Chicken Meal & Brown Rice</Text>
-                        <View style={styles.mealDetails}>
-                            <Text style={styles.mealAmount}>0.6 cups per meal</Text>
-                            <Text style={styles.mealCalories}>260 total calories</Text>
+                <View contentContainerStyle={styles.scrollContent}>
+                    <View style={styles.cardContainer}>
+                        <View style={styles.card}>
+                            <Text style={styles.mealTime}>Breakfast 9AM</Text>
+                            <Text style={styles.mealDescription}>Active Care Chicken Meal & Brown Rice</Text>
+                            <View style={styles.mealDetails}>
+                                <Text style={styles.mealAmount}>0.6 cups per meal</Text>
+                                <Text style={styles.mealCalories}>260 kcal</Text>
+                            </View>
                         </View>
                     </View>
-                    <View style={styles.mealPlan}>
-                        <Text style={styles.mealTime}>Royal Canin Chicken, Beef, and Venison</Text>
-                        <View style={styles.mealDetails}>
-                            <Text style={styles.mealAmount}>0.6 cups per meal</Text>
-                            <Text style={styles.mealCalories}>260 total calories</Text>
+                    <View style={styles.cardContainer}>
+                        <View style={styles.card}>
+                            <Text style={styles.mealTime}>Lunch 1PM</Text>
+                            <Text style={styles.mealDescription}>Royal Canin Chicken, Beef, and Venison</Text>
+                            <View style={styles.mealDetails}>
+                                <Text style={styles.mealAmount}>0.6 cups per meal</Text>
+                                <Text style={styles.mealCalories}>260 kcal</Text>
+                            </View>
                         </View>
                     </View>
-                    <View style={styles.mealPlan}>
-                        <Text style={styles.mealTime}>Dinner 6PM</Text>
-                        <Text style={styles.mealDescription}>Royal Canin Chicken, Beef, and Venison</Text>
-                        <View style={styles.mealDetails}>
-                            <Text style={styles.mealAmount}>0.3 cups per meal</Text>
-                            <Text style={styles.mealCalories}>130 total calories</Text>
+                    <View style={styles.cardContainer}>
+                        <View style={styles.card}>
+                            <Text style={styles.mealTime}>Dinner 6PM</Text>
+                            <Text style={styles.mealDescription}>Royal Canin Chicken, Beef, and Venison</Text>
+                            <View style={styles.mealDetails}>
+                                <Text style={styles.mealAmount}>0.3 cups per meal</Text>
+                                <Text style={styles.mealCalories}>130 kcal</Text>
+                            </View>
                         </View>
                     </View>
-                </ScrollView>
+                </View>
             </SafeAreaView>
         </SafeAreaProvider>
     );
@@ -238,15 +245,20 @@ const styles = StyleSheet.create({
     header: {
         width: '100%',
         height: 400,
-        backgroundColor: '#fff',
+        // backgroundColor: '#fff',
         alignItems: 'center',
+        position: 'absolute',
+        top: 0,
+        // left: 0,
+        // right: 0,
     },
     dogImage: {
         width: '100%',
         height: '60%',
+        // flex:0,
     },
     headerText: {
-        padding: 10,
+        padding: 15,
         alignItems: 'center',
     },
     dogName: {
@@ -275,6 +287,7 @@ const styles = StyleSheet.create({
     },
     scrollContent: {
         padding: 20,
+        paddingTop: 350,
     },
     mealPlan: {
         marginBottom: 20,
@@ -296,6 +309,21 @@ const styles = StyleSheet.create({
     },
     mealCalories: {
         fontSize: 16,
+    },
+    cardContainer: {
+        marginBottom: 15,
+        paddingHorizontal: 20,
+        top: 350,
+    },
+    card: {
+        backgroundColor: '#fff',
+        borderRadius: 8,
+        padding: 20,
+        elevation: 2, // Android
+        shadowColor: '#000', // iOS
+        shadowOffset: { width: 0, height: 2 }, // iOS
+        shadowOpacity: 0.25, // iOS
+        shadowRadius: 3.84, // iOS
     },
 });
 
