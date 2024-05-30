@@ -24,6 +24,7 @@
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="pawpal"/>
         <data android:scheme="com.johanchristiansen.PawPal"/>
         <data android:scheme="exp+pawpal"/>
       </intent-filter>
