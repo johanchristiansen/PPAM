@@ -44,7 +44,10 @@ const LoginScreen = ({ navigation }) => {
 
   const handleGoogleSignIn = async () => {
     try {
-      const redirectUri = AuthSession.makeRedirectUri();
+      const redirectUri = AuthSession.makeRedirectUri({
+        scheme: "pawpal"
+      });
+
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: { redirectTo: redirectUri },
@@ -55,7 +58,7 @@ const LoginScreen = ({ navigation }) => {
         return;
       }
 
-      const authUrl = data.url || "";
+      const authUrl = data.url;
       const result = await WebBrowser.openAuthSessionAsync(authUrl, redirectUri);
 
       if (result.type === "success" && result.url) {
