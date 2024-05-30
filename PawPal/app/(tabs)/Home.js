@@ -89,31 +89,11 @@ const HomeScreen = () => {
   };
   
   const navigateToPetProfile = (petId) => {
-    console.log(petId);
     router.push({
       pathname: '/PetProfile',
       params: { petId: petId },
     });
   };
-  
-
-  // const renderItem = ({ item }) => {
-  //   const age = differenceInYears(new Date(), new Date(item.birth_date));
-  //   return (
-  //     <View style={styles.pawPalCard}>
-  //       {item.picture_url ? (
-  //         <Image source={{ uri: item.picture_url }} style={styles.pawPalImage} />
-  //       ) : (
-  //         <View style={styles.pawPalImagePlaceholder}>
-  //           <Text>No Image</Text>
-  //         </View>
-  //       )}
-  //       <Text>{item.name}</Text>
-  //       <Text>{item.breed}</Text>
-  //       <Text>{age} y.o.</Text>
-  //     </View>
-  //   );
-  // };
 
 
   return (
