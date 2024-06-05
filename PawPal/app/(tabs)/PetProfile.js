@@ -7,7 +7,6 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 const PetProfile = () => {
     const [petDetails, setPetDetails] = useState(null);
     const [sexIcon, setSexIcon] = useState(null);
-    const [breedSize, setBreedSize] = useState(null);
     const [dailyCalorieNeeds, setDailyCalorieNeeds] = useState(0);
     const [mealPlans, setMealPlans] = useState({ breakfast: null, lunch: null, dinner: null });
     const { petId } = useLocalSearchParams(); // Correct way to get params
@@ -43,7 +42,7 @@ const PetProfile = () => {
 
         return age;
     };
-    
+
     const getBreedSize = async (petType, breed) => {
         try {
             const { data, error } = await supabase
@@ -65,7 +64,7 @@ const PetProfile = () => {
             return null;
         }
     };
-    
+
     const determineCalorieIntakeForDogs = async (petAge, data) => {
         const weight = data.weight;
         const breed = data.breed;
@@ -146,6 +145,34 @@ const PetProfile = () => {
         }
     };
 
+    const fetchMealPlans = async (petId) => {
+        try {
+            const { data: mealSchedules, error } = await supabase
+                .from('meal_schedules')
+                .select()
+                .eq('pet_id', petId);
+
+            if (error) {
+                throw error;
+            }
+
+            if (mealSchedules && mealSchedules.length > 0) {
+                const breakfastPlan = mealSchedules.find(schedule => schedule.meal_session === 'breakfast');
+                const lunchPlan = mealSchedules.find(schedule => schedule.meal_session === 'lunch');
+                const dinnerPlan = mealSchedules.find(schedule => schedule.meal_session === 'dinner');
+
+                setMealPlans({
+                    breakfast: breakfastPlan || null,
+                    lunch: lunchPlan || null,
+                    dinner: dinnerPlan || null
+                });
+            }
+        } catch (error) {
+            console.error('Error fetching meal plans:', error.message);
+            Alert.alert('Error', 'Unable to fetch meal plans');
+        }
+    };
+
     useEffect(() => {
         const fetchPetDetails = async () => {
             if (!petId) {
@@ -171,6 +198,8 @@ const PetProfile = () => {
 
                     const sexIcon = await determineSexIcon(petId);
                     setSexIcon(sexIcon);
+
+                    await fetchMealPlans(petId);
                 } else {
                     console.error('Pet details not found');
                 }
@@ -185,7 +214,7 @@ const PetProfile = () => {
 
     const navigateToPetMeals = (mealTime) => {
         router.push({
-            pathname: 'ComingSoon',
+            pathname: 'MealPlan',
             params: { petType: petDetails.animal, mealTime, petId },
         });
     };
@@ -204,11 +233,19 @@ const PetProfile = () => {
         <SafeAreaProvider>
             <SafeAreaView style={styles.container}>
                 <View style={styles.header}>
-                    <Image
-                        source={{ uri: petDetails.picture_url }}
-                        style={styles.petImage}
-                        resizeMode="cover"
-                    />
+                    {petDetails.picture_url ? (
+                        <Image
+                            source={{ uri: petDetails.picture_url }}
+                            style={styles.petImage}
+                            resizeMode="cover"
+                        />
+                    ) : (
+                        <Image
+                            source={require('../../assets/iconpawpal.png')}
+                            style={styles.petImage}
+                            resizeMode="cover"
+                        />
+                    )}
                     <View style={styles.headerText}>
                         <View style={styles.nameAndIcon}>
                             <Text style={styles.petName}>{petDetails.name}</Text>
@@ -237,12 +274,13 @@ const PetProfile = () => {
                             onPress={() => navigateToPetMeals(mealTime)}
                         >
                             <View style={styles.card}>
-                                <Text style={styles.mealTime}>{mealTime.charAt(0).toUpperCase() + mealTime.slice(1)} </Text>
+                                {/* <Text style={styles.mealTime}>{mealTime.charAt(0).toUpperCase() + mealTime.slice(1)}</Text> */}
                                 {mealPlans[mealTime] ? (
                                     <>
-                                        <Text style={styles.mealDescription}>{mealPlans[mealTime].description}</Text>
+                                        <Text style={styles.mealTime}>{mealTime.charAt(0).toUpperCase() + mealTime.slice(1)} {new Date(mealPlans[mealTime].time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })} </Text>
+                                        <Text style={styles.mealDescription}>{mealPlans[mealTime].food}</Text>
                                         <View style={styles.mealDetails}>
-                                            <Text style={styles.mealAmount}>{mealPlans[mealTime].amount} per meal</Text>
+                                            <Text style={styles.mealAmount}>{mealPlans[mealTime].cup_portion} cup(s)</Text>
                                             <Text style={styles.mealCalories}>{mealPlans[mealTime].calories} kcal</Text>
                                         </View>
                                     </>
@@ -279,7 +317,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     petName: {
-        fontSize: 26,
+        fontSize: 23,
         fontWeight: 'bold',
         marginRight: 5,
     },
@@ -292,7 +330,7 @@ const styles = StyleSheet.create({
         height: 24,
     },
     petDetails: {
-        fontSize: 16,
+        fontSize: 14,
         color: '#888',
     },
     iconContainer: {
@@ -309,7 +347,7 @@ const styles = StyleSheet.create({
         height: 35,
     },
     calorieText: {
-        fontSize: 18,
+        fontSize: 14,
         marginTop: 4,
     },
     calorieValue: {
@@ -319,12 +357,13 @@ const styles = StyleSheet.create({
     cardContainer: {
         marginBottom: 15,
         paddingHorizontal: 20,
-        top: 400,
+        top: 390,
     },
     card: {
-        backgroundColor: '#fff',
+        backgroundColor: '#EADDCD',
         borderRadius: 8,
         padding: 20,
+        paddingTop: 10,
         elevation: 2,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
@@ -334,20 +373,23 @@ const styles = StyleSheet.create({
     mealTime: {
         fontSize: 18,
         fontWeight: 'bold',
+        textAlign: 'center',
     },
     mealDescription: {
         fontSize: 16,
         marginVertical: 5,
+        textAlign: 'center',
+        marginBottom: 10,
     },
     mealDetails: {
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
     mealAmount: {
-        fontSize: 16,
+        fontSize: 18,
     },
     mealCalories: {
-        fontSize: 16,
+        fontSize: 18,
     },
     mealIcon: {
         width: 30,

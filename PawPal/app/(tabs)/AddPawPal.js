@@ -97,7 +97,7 @@ const AddPawPalScreen = () => {
       Alert.alert('Error', 'No user ID available');
       return;
     }
-
+  
     let uploadedUrl = pictureUrl;
     if (pictureUri) {
       const localUri = await saveImageLocally(pictureUri);
@@ -105,31 +105,54 @@ const AddPawPalScreen = () => {
       uploadedUrl = localUri; // Save as filename
       setPictureUrl(uploadedUrl);
     }
+  
+    try {
+      const { data: petData, error: petError } = await supabase
+        .from('pets')
+        .insert([
+          {
+            user_id: userId,
+            name: name,
+            animal: selectedAnimal,
+            sex: sex,
+            breed: breed,
+            birth_date: birthDate,
+            characteristics: characteristics,
+            weight: parseFloat(weight),
+            medical_concerns: medicalConcerns,
+            picture_url: uploadedUrl,
+          }
+        ])
+        .select('*');
+  
+      if (petError) {
+        throw petError;
+      }
+  
+      const petId = petData ? Object.values(petData)[0] : null;
+      const mealSessions = ['breakfast', 'lunch', 'dinner'];
+      const mealScheduleData = mealSessions.flatMap(session => ({
+        pet_id: petId.id,
+        meal_session: session,
+      }));
 
-    const { data, error } = await supabase
-      .from('pets')
-      .insert([
-        {
-          user_id: userId,
-          name: name,
-          animal: selectedAnimal,
-          sex: sex,
-          breed: breed,
-          birth_date: birthDate,
-          characteristics: characteristics,
-          weight: parseFloat(weight),
-          medical_concerns: medicalConcerns,
-          picture_url: uploadedUrl,
-        }
-      ]);
-
-    if (error) {
-      Alert.alert('Error', error.message);
-    } else {
-      Alert.alert('Success', 'Pet added successfully');
+      console.log(mealScheduleData);
+  
+      const { error: mealScheduleError } = await supabase
+        .from('meal_schedules')
+        .insert(mealScheduleData);
+  
+      if (mealScheduleError) {
+        throw mealScheduleError;
+      }
+  
+      Alert.alert('Success', 'Pet and meal schedule added successfully');
       navigation.navigate('Home');
+    } catch (error) {
+      Alert.alert('Error', error.message || 'An error occurred');
     }
   };
+  
 
   return (
     <SafeAreaView style={styles.safeArea}>
